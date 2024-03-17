@@ -1,8 +1,4 @@
-require('dotenv').config();
-const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
-const encodedPw = encodeURIComponent(MONGODB_PASSWORD);
-const mongoDbUri = `mongodb+srv://${MONGODB_USERNAME}:${encodedPw}@cluster0.hqzrhkz.mongodb.net/blogList?retryWrites=true&w=majority&appName=Cluster0`;
-console.log(mongoDbUri);
+const { PORT, mongoDbUri} = require('./utils/config');
 const express = require('express');
 const index = express();
 const cors = require('cors');
@@ -41,7 +37,6 @@ index.post('/api/blogs', (request, response) => {
         });
 });
 
-const PORT = 3003;
 index.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
