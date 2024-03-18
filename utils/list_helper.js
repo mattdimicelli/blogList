@@ -55,6 +55,33 @@ const mostBlogs = (arrOfBlogs) => {
   return { author: mostProlificAuthor, blogs: mostBlogs }
 }
 
+const mostLikes = (arrOfBlogs) => {
+  if (arrOfBlogs.length === 0) {
+    return undefined
+  }
+  const likesPerAuthor = {}
+
+  for (const blog of arrOfBlogs) {
+    if (!Object.prototype.hasOwnProperty.call(likesPerAuthor, blog.author)) {
+      likesPerAuthor[blog.author] = blog.likes
+    } else {
+      likesPerAuthor[blog.author] += blog.likes
+    }
+  }
+
+  let mostLikes = 0
+  let mostLikedAuthor
+  for (const [author, likes] of Object.entries(likesPerAuthor)) {
+    if (likes > mostLikes) {
+      mostLikes = likes
+      mostLikedAuthor = author
+    }
+
+  }
+
+  return { author: mostLikedAuthor, likes: mostLikes }
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
