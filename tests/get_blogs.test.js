@@ -19,21 +19,10 @@ describe.only('get blogs', () => {
       console.log('second blog saved')
     })
     test.only('returns the correct amount of blog posts in JSON format', async () => {
-      const response = await request.get('/api/blogs')
-
-      function isValidJSON (str) {
-        try {
-          JSON.parse(str)
-          return true
-        } catch (e) {
-          return false
-        }
-      }
-
-      console.log('type of', typeof response.body)
-
-      assert.strictEqual(isValidJSON(response.body), true)
-      assert.strictEqual(JSON.parse(response.body).length, 2)
+      const response = await request
+      .get('/api/blogs')
+      .expect('Content-Type', /application\/json/)
+      assert.strictEqual(response.body.length, 2)
     })
     after(() => {
       mongoose.connection.close()
