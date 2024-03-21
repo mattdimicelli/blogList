@@ -1,3 +1,6 @@
+const { beforeEach, after } = require('node:test')
+const Blog = require('../models/blog')
+const mongoose = require('mongoose')
 const dummy = (blogs) => {
   return 1
 }
@@ -82,6 +85,22 @@ const mostLikes = (arrOfBlogs) => {
   return { author: mostLikedAuthor, likes: mostLikes }
 }
 
+const resetDb = () => {
+  beforeEach(async () => {
+    const blog1 = new Blog({ title: 'blog1', author: 'Matt Di Micelli', url: 'none', likes: 0 })
+    const blog2 = new Blog({ title: 'blog2', author: 'Matt Di Micelli', url: 'none', likes: 0 })
+    await Blog.deleteMany({})
+    await blog1.save()
+    await blog2.save()
+  })
+}
+
+const closeDb = () => {
+  after(() => {
+    mongoose.connection.close()
+  })
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes, resetDb, closeDb
 }

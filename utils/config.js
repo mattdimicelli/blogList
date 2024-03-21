@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: `${__dirname}/../.env` })
 
 const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env
 const encodedPw = encodeURIComponent(MONGODB_PASSWORD)
