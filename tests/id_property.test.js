@@ -4,7 +4,6 @@ const Blog = require('../models/blog')
 const { resetDb, closeDb } = require('../utils/list_helper')
 const mongoose = require('mongoose')
 
-console.log('start of this file')
 describe('id property', async () => {
   try {
     console.log('in id property')
