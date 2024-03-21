@@ -1,20 +1,19 @@
-const { test, describe} = require('node:test')
-require('../utils/config')
+const app = require('../app')
+const { test, describe, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
 const supertest = require('supertest')
-const app = require('../app')
 const request = supertest(app)
 const { resetDb, closeDb } = require('../utils/list_helper')
-describe('get blogs', () => {
+describe('get blogs', async () => {
   try {
-    resetDb()
+    await beforeEach(async () => await resetDb())
     test('returns the correct amount of blog posts in JSON format', async () => {
       const response = await request
-      .get('/api/blogs')
-      .expect('Content-Type', /application\/json/)
+        .get('/api/blogs')
+        .expect('Content-Type', /application\/json/)
       assert.strictEqual(response.body.length, 2)
     })
-    closeDb()
+    await afterEach(() => closeDb())
   } catch (e) {
     console.error(e)
   }
