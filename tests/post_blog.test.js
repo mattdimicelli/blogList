@@ -25,6 +25,11 @@ describe('post blog', async () => {
       delete copyOfResponseBody.id
       assert.deepStrictEqual(data, copyOfResponseBody)
     })
+    await test('if blog post is without likes property, defaults to 0', async() => {
+      const data = { title: 'blog3', author: 'Matt', url: 'http://none.com' }
+      const response = await request(app).post('/api/blogs').send(data)
+      assert(response.body.likes === 0)
+    })
     await after(async() => {
       await closeDb()
     })
