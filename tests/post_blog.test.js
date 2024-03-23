@@ -30,6 +30,14 @@ describe('post blog', async () => {
       const response = await request(app).post('/api/blogs').send(data)
       assert(response.body.likes === 0)
     })
+    await test ('if blog is missing title, responds with 400 bad request', async() => {
+      const data = { author: 'Matt', url: 'http://none.com', likes: 0 }
+      await request(app).post('/api/blogs').send(data).expect(400)
+    })
+    await test ('if blog is missing url, responds with 400 bad request', async() => {
+      const data = { author: 'Matt', title: 'a title', likes: 0 }
+      await request(app).post('/api/blogs').send(data).expect(400)
+    })
     await after(async() => {
       await closeDb()
     })
