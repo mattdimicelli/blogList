@@ -13,7 +13,7 @@ describe('id property', async () => {
     await beforeEach(async () => {
       await resetDb()
     })
-    test('the unique identifier property of the blog posts is named id', async () => {
+    await test('the unique identifier property of the blog posts is named id', async () => {
       const blogs = await Blog.find({})
       const aBlog = blogs[0]
       assert('id' in aBlog)

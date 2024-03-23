@@ -14,7 +14,7 @@ describe('get blogs', async () => {
     await beforeEach(async () => {
       await resetDb()
     })
-    test('returns the correct amount of blog posts in JSON format', async () => {
+    await test('returns the correct amount of blog posts in JSON format', async () => {
       const response = await request
         .get('/api/blogs')
         .expect('Content-Type', /application\/json/)
