@@ -5,7 +5,7 @@ const request = require('supertest')
 const app = require('../app')
 const mongoose = require('mongoose')
 const { mongoDbUri } = require('../utils/config')
-describe('post blog', async() => {
+describe('delete blog', async() => {
   try {
     await before(async () => {
       await mongoose.connect(mongoDbUri)
