@@ -15,4 +15,14 @@ blogsRouter.post('/api/blogs', async (request, response) => {
   }
 })
 
+blogsRouter.delete('/api/blogs/:id', async(request, response) => {
+  const id = request.params.id
+  try {
+    const deletedBlog = await Blog.findByIdAndDelete(id)
+    return response.send(deletedBlog.toJSON());
+  } catch(e) {
+    response.status(404).end()
+  }
+})
+
 module.exports = blogsRouter
