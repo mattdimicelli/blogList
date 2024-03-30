@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const mongoose = require('mongoose')
 const dummy = () => {
   return 1
@@ -92,10 +93,17 @@ const resetDb = async () => {
   await blog2.save()
 }
 
+const resetUsers = async () => {
+  const user1 = new User(
+    { username: 'mrd2689a', name: 'Matt Di Micelli', password: 'this_is_a_hashed_pw' })
+  await User.deleteMany({})
+  await user1.save()
+}
+
 const closeDb = async () => {
   return await mongoose.connection.close()
 }
 
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes, resetDb, closeDb
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes, resetDb, closeDb, resetUsers
 }
