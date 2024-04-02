@@ -36,11 +36,11 @@ userRouter.post('/api/users', async (req, res) => {
   }
 })
 
-userRouter.get('/api/users', async(req, res) => {
+userRouter.get('/api/users', async (req, res) => {
   try {
-    const allUsers = await User.find({})
-    res.json(allUsers);
-  } catch(e) {
+    const allUsers = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1, likes: 1, _id: 1 })
+    res.json(allUsers)
+  } catch (e) {
     console.error(e)
     res.status(400).send({ error: 'invalid request' })
   }
