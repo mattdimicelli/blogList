@@ -35,8 +35,18 @@ blogsRouter.post('/api/blogs', async (request, response) => {
 blogsRouter.delete('/api/blogs/:id', async (request, response) => {
   const id = request.params.id
   try {
-    const deletedBlog = await Blog.findByIdAndDelete(id)
-    return response.send(deletedBlog.toJSON())
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token invalid' })
+    }
+    const foundBlog = await Blog.findById(id)
+    if (decodedToken.id === foundBlog.user._id) {
+      const deletedBlog = await Blog.findByIdAndDelete(id)
+      return response.send(deletedBlog.toJSON())
+    } else {
+      return response.send({ error: 'this user cannot delete this blog' })
+    }
+    // otherwise, return status
   } catch (e) {
     response.status(404).end()
   }
