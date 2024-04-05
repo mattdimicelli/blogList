@@ -1,8 +1,10 @@
-const getToken = (req, res) => {
+const getToken = (req, res, next) => {
   const auth = req.get('Authorization')
   if (auth && auth.startsWith('Bearer ')) {
-    return auth.replace('Bearer ', '')
+    req.token = auth.replace('Bearer ', '')
+  } else {
+    req.token = null
   }
-  return null
+  next()
 }
 module.exports = getToken
