@@ -40,7 +40,7 @@ blogsRouter.delete('/api/blogs/:id', async (request, response) => {
       return response.status(401).json({ error: 'token invalid' })
     }
     const foundBlog = await Blog.findById(id)
-    if (decodedToken.id === foundBlog.user._id) {
+    if (decodedToken.id === foundBlog.user._id.toString()) {
       const deletedBlog = await Blog.findByIdAndDelete(id)
       return response.send(deletedBlog.toJSON())
     } else {
@@ -48,7 +48,11 @@ blogsRouter.delete('/api/blogs/:id', async (request, response) => {
     }
     // otherwise, return status
   } catch (e) {
-    response.status(404).end()
+    if (e.message === 'jwt must be provided') {
+      response.status(400).send({ error: 'jwt must be provided' })
+    } else {
+      response.status(404).end()
+    }
   }
 })
 
